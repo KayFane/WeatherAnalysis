@@ -37,5 +37,8 @@
 categories.sales <- read.table("/Users/KayE/Documents/R/CT/results/categories_sales.txt",header=TRUE)
 categories.sales$TRANSACTION_DATE <- as.Date(categories.sales$TRANSACTION_DATE)
 
+categories.sales <- categories.sales[, -5]
+
+
 
 #sample <- categories.sales[categories.sales$TRANSACTION_DATE < as.Date('2012-02-29',"%Y-%m-%d"),]

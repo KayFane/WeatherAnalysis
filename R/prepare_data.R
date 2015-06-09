@@ -109,6 +109,29 @@ StoreSalesWeather <- function(store.id) {
 }
 
 StoresSalesWithWeather <- function() {
+#   Return Sample: 
+#   TRANSACTION_DATE STORE_NUM                  CATEGORY_NM TRANSACTION_QTY
+#   2       2012-01-02       610               AUTO BATTERIES              10
+#   3       2012-01-02       610 AUTO HEATING & COOLING PARTS               4
+#   4       2012-01-03       610               AUTO BATTERIES              11
+#   5       2012-01-03       610                       BRAKES               1
+#   6       2012-01-04       610               AUTO BATTERIES               2
+#   7       2012-01-05       610               AUTO BATTERIES               5
+#   RETURN_QUANTITY CONSUMER_PRICE weather_id max_temp_amt min_temp_amt
+#   2              -1          984.9     215025           10          1.4
+#   3              -1         261.88     215025           10          1.4
+#   4               0        1030.89     275873          8.9          6.9
+#   5               0          54.99     275873          8.9          6.9
+#   6               0         202.98     215026         11.3          8.1
+#   7               0         454.95     217338          8.5          3.9
+#   precipitation_mm_amt snow_cm_amt           weather_en_desc DAY_OF_WEEK
+#   2                  3.4           0                      Rain      Monday
+#   3                  3.4           0                      Rain      Monday
+#   4                   19           0                      Rain     Tuesday
+#   5                   19           0                      Rain     Tuesday
+#   6                 11.2           0                      Rain   Wednesday
+#   7                    0           0 Sunny with cloudy periods    Thursday
+  
   stores.id = unique(stores.info$STORE_NBR)
   stores.org <- c("")  
   
@@ -119,12 +142,14 @@ StoresSalesWithWeather <- function() {
     }
   }
   
+  #length(which(is.na(stores.org))) #about 5497 NA records for stores in BC
+  stores.org <- stores.org[-which(is.na(stores.org)), ]  
   return(stores.org)
 }
 
 #path.org <- "./results/SalesWithWeather.txt"
 #write.table(stores.org, path.org, sep="\t", row.names=FALSE,append = FALSE)
-sales.with.weather <- StoresSalesWithWeather()
+
 # for (category in unique(sales.with.weather$CATEGORY_NM))
 # {
 #   sales.category <- data.frame()
@@ -137,28 +162,43 @@ sales.with.weather <- StoresSalesWithWeather()
 #   
 # }
 
-sales.batteries <- sales.with.weather[sales.with.weather$CATEGORY_NM == "AUTO BATTERIES", ]
-sales.batteries <- sales.batteries[, c(-3, -5)]
-colnames(sales.batteries)[3] <- "BATTERIES_QTY"
-colnames(sales.batteries)[4] <- "BATTERIES_PRICE"
+CategorizedSales <- function() {
+  sales.with.weather <- StoresSalesWithWeather()
+  sales.category <- sales.with.weather[, -c(3, 4, 5, 6)]
+  
+  sales.batteries <- sales.with.weather[sales.with.weather$CATEGORY_NM == "AUTO BATTERIES", ]
+  sales.batteries <- sales.batteries[, c(1,2,4,6)]
+  colnames(sales.batteries)[3] <- "BATTERIES_QTY"
+  colnames(sales.batteries)[4] <- "BATTERIES_PRICE"
+  sales.category <- merge(sales.category, sales.batteries, by = c("TRANSACTION_DATE", "STORE_NUM"))
+  
+  sales.heatingcooling <- sales.with.weather[sales.with.weather$CATEGORY_NM == "AUTO HEATING & COOLING PARTS", ]
+  sales.heatingcooling <- sales.heatingcooling[, c(1,2,4,6)]
+  colnames(sales.heatingcooling)[3] <- "HEATING_COOLING_QTY"
+  colnames(sales.heatingcooling)[4] <- "HEATING_COOLING_PRICE"
+  sales.category <- merge(sales.category, sales.heatingcooling, by = c("TRANSACTION_DATE", "STORE_NUM"))
+  
+  sales.brakes <- sales.with.weather[sales.with.weather$CATEGORY_NM == "BRAKES", ]
+  sales.brakes<- sales.brakes[, c(1,2,4,6)]
+  colnames(sales.brakes)[3] <- "BRAKES_QTY"
+  colnames(sales.brakes)[4] <- "BRAKES_PRICE"
+  sales.category <- merge(sales.category, sales.brakes, by = c("TRANSACTION_DATE", "STORE_NUM"))
+  
+  sales.steering <- sales.with.weather[sales.with.weather$CATEGORY_NM == "STEERING & SUSPENSION", ]
+  sales.steering <- sales.steering[, c(1,2,4,6)]
+  colnames(sales.steering)[3] <- "STEERING_QTY"
+  colnames(sales.steering)[4] <- "STEERING_PRICE"
+  
+  
+  sales.category <- merge(sales.category, sales.steering, by = c("TRANSACTION_DATE", "STORE_NUM"))
+  return(sales.category)
+}
 
-sales.heatingcooling <- sales.with.weather[sales.with.weather$CATEGORY_NM == "AUTO HEATING & COOLING PARTS", ]
-sales.heatingcooling <- sales.heatingcooling[, c(1,2,4,6)]
-colnames(sales.heatingcooling)[3] <- "HEATING_COOLING_QTY"
-colnames(sales.heatingcooling)[4] <- "HEATING_COOLING_PRICE"
-sales.category <- merge(sales.batteries, sales.heatingcooling, by = c("TRANSACTION_DATE", "STORE_NUM"))
-
-sales.brakes <- sales.with.weather[sales.with.weather$CATEGORY_NM == "BRAKES", ]
-sales.brakes<- sales.brakes[, c(1,2,4,6)]
-colnames(sales.brakes)[3] <- "BRAKES_QTY"
-colnames(sales.brakes)[4] <- "BRAKES_PRICE"
-sales.category <- merge(sales.category, sales.brakes, by = c("TRANSACTION_DATE", "STORE_NUM"))
-
-sales.steering <- sales.with.weather[sales.with.weather$CATEGORY_NM == "STEERING & SUSPENSION", ]
-sales.steering <- sales.steering[, c(1,2,4,6)]
-colnames(sales.steering)[3] <- "STEERING_QTY"
-colnames(sales.steering)[4] <- "STEERING_PRICE"
+WriteTable <- function(data) {
+  path <- "/Users/KayE/Documents/R/CT/results/categories_sales_BC.txt"
+  write.table(data, path, sep="\t", row.names=FALSE,append = FALSE)  
+}
 
 
-sales.category <- merge(sales.category, sales.steering, by = c("TRANSACTION_DATE", "STORE_NUM"))
+
 
