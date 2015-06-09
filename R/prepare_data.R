@@ -65,9 +65,9 @@ province <- "BC"
 #province <- "AB_BC"
 
 
-path.stores.info <- sprintf("./data/%s/weather project - store.tab", province) 
-path.stores.sale <- sprintf("./data/%s/weather project - sales.tab", province)
-path.weather <- sprintf("./data/%s/weather project - daily weather.tab", province)
+path.stores.info <- sprintf("/Users/KayE/Documents/R/CT/%s/weather project - store.tab", province) 
+path.stores.sale <- sprintf("/Users/KayE/Documents/R/CT/%s/weather project - sales.tab", province)
+path.weather <- sprintf("/Users/KayE/Documents/R/CT/%s/weather project - daily weather.tab", province)
 
 stores.info <- read.table(path.stores.info, sep="\t", header=TRUE)
 stores.sale <- read.table(path.stores.sale, sep="\t", header=TRUE)

@@ -34,7 +34,7 @@
 # 4         118.14
 # 5         140.21
 # 6          48.78
-categories.sales <- read.table("./results/categories_sales.txt",header=TRUE)
+categories.sales <- read.table("/Users/KayE/Documents/R/CT/results/categories_sales.txt",header=TRUE)
 categories.sales$TRANSACTION_DATE <- as.Date(categories.sales$TRANSACTION_DATE)
 
 
