@@ -4,8 +4,13 @@ author: Fan E
 date: Jun. 10, 2015
 output: 
   pdf_document:
+    toc: true
     keep_tex: true
+    number_sections: true
 ---
+
+\newpage
+
 
 # Introduction
 The report is a basic description of the original sales and weather data. 
