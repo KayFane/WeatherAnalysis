@@ -58,16 +58,16 @@
 # 5             Rain                   Pluie               r           secondary
 # 6           Cloudy                 Nuageux               o             primary
 # > 
-
+if(kReprepare) {
+  
 library(plyr)
 
 province <- "BC"
 #province <- "AB_BC"
 
-
-path.stores.info <- sprintf("/Users/KayE/Documents/R/CT/%s/weather project - store.tab", province) 
-path.stores.sale <- sprintf("/Users/KayE/Documents/R/CT/%s/weather project - sales.tab", province)
-path.weather <- sprintf("/Users/KayE/Documents/R/CT/%s/weather project - daily weather.tab", province)
+path.stores.info <- sprintf("~/Documents/R/CT/%s/weather project - store.tab", province) 
+path.stores.sale <- sprintf("~/Documents/R/CT/%s/weather project - sales.tab", province)
+path.weather <- sprintf("~/Documents/R/CT/%s/weather project - daily weather.tab", province)
 
 stores.info <- read.table(path.stores.info, sep="\t", header=TRUE)
 stores.sale <- read.table(path.stores.sale, sep="\t", header=TRUE)
@@ -147,22 +147,36 @@ StoresSalesWithWeather <- function() {
   return(stores.org)
 }
 
-#path.org <- "./results/SalesWithWeather.txt"
-#write.table(stores.org, path.org, sep="\t", row.names=FALSE,append = FALSE)
-
-# for (category in unique(sales.with.weather$CATEGORY_NM))
-# {
-#   sales.category <- data.frame()
-#   temp <- data.frame()
-#   if (nrow(sales.category) == 0)
-#     sales.category <- sales.with.weather[sales.with.weather$CATEGORY_NM == category, ]
-#   else 
-#     temp <- sales.with.weather[sales.with.weather$CATEGORY_NM == category, ]  
-#         
-#   
-# }
 
 CategorizedSales <- function() {
+  # TRANSACTION_DATE STORE_NUM weather_id max_temp_amt min_temp_amt
+  # 1       2012-01-02       351     206770          4.5         -5.4
+  # 2       2012-01-02       351     206770          4.5         -5.4
+  # 3       2012-01-02       351     206770          4.5         -5.4
+  # 4       2012-01-02       351     206770          4.5         -5.4
+  # 5       2012-01-02       353     185460          1.5         -8.4
+  # 6       2012-01-02       353     185460          1.5         -8.4
+  # precipitation_mm_amt snow_cm_amt weather_en_desc DAY_OF_WEEK BATTERIES_QTY
+  # 1                    0           0          Cloudy      Monday             8
+  # 2                    0           0          Cloudy      Monday             8
+  # 3                    0           0          Cloudy      Monday             8
+  # 4                    0           0          Cloudy      Monday             8
+  # 5                    0           0            Snow      Monday            21
+  # 6                    0           0            Snow      Monday            21
+  # BATTERIES_PRICE HEATING_COOLING_QTY HEATING_COOLING_PRICE BRAKES_QTY BRAKES_PRICE
+  # 1          792.92                   1                 36.12          3       286.46
+  # 2          792.92                   1                 36.12          3       286.46
+  # 3          792.92                   1                 36.12          3       286.46
+  # 4          792.92                   1                 36.12          3       286.46
+  # 5         2044.80                  32                439.15          7       269.95
+  # 6         2044.80                  32                439.15          7       269.95
+  # STEERING_QTY STEERING_PRICE
+  # 1            1          46.09
+  # 2            1          46.09
+  # 3            1          46.09
+  # 4            1          46.09
+  # 5            4          89.35
+  # 6            4          89.35
   sales.with.weather <- StoresSalesWithWeather()
   sales.category <- sales.with.weather[, -c(3, 4, 5, 6)]
   
@@ -193,10 +207,6 @@ CategorizedSales <- function() {
   sales.category <- merge(sales.category, sales.steering, by = c("TRANSACTION_DATE", "STORE_NUM"))
   return(sales.category)
 }
-
-WriteTable <- function(data) {
-  path <- "/Users/KayE/Documents/R/CT/results/categories_sales_BC.txt"
-  write.table(data, path, sep="\t", row.names=FALSE,append = FALSE)  
 }
 
 

@@ -1,0 +1,95 @@
+---
+title: "Sales and Weather Info Description"
+author: Fan E
+date: Jun. 10, 2015
+output: 
+  pdf_document:
+    keep_tex: true
+---
+
+# Introduction
+The report is a basic description of the original sales and weather data. 
+
+The "units" and "price" columns are aggravated by categories on daily basis. 
+
+## A Sample of Data Table:"sales"
+
+```{r}
+
+head(sales)
+
+```
+
+The total number of observations is `r nrow(sales)` . 
+
+# Statistical Descriptions 
+
+## A brief summary on each column 
+
+```{r}
+
+summary(sales)
+
+```
+
+## Histogram on Temperatures
+
+```{r}
+
+hist(sales$max_temp_amt)
+hist(sales$min_temp_amt)
+hist(sales$precipitation_mm_amt)
+hist(sales$snow_cm_amt)
+
+```
+
+## Histogram on Sales
+
+### Batteries 
+
+```{r}
+
+hist(sales$BATTERIES_QTY)
+hist(sales$BATTERIES_PRICE)
+
+```
+
+### Heating and cooling parts
+
+```{r}
+
+hist(sales$HEATING_COOLING_QTY)
+hist(sales$HEATING_COOLING_PRICE)
+
+```
+
+### Brakes
+
+```{r}
+
+hist(sales$BRAKES_QTY)
+hist(sales$BRAKES_PRICE)
+
+```
+
+### Steering and suspension
+
+```{r}
+
+hist(sales$STEERING_QTY)
+hist(sales$STEERING_PRICE)
+
+```
+
+## Skewness Statistics
+
+### Skewness statistics on sales data 
+
+```{r}
+
+apply(sales[, c(10:17)],2,skewness)
+
+```
+
+
+
