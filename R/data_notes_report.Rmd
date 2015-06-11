@@ -1,0 +1,12 @@
+---
+title: "Sick Data Notes"
+output: 
+  pdf_document
+---
+
+
+```{r}
+
+table(sales$TRANSACTION_DATE)
+
+```
