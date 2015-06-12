@@ -1,0 +1,45 @@
+---
+title: "Original Data Description"
+output: 
+  pdf_document:
+    toc: true
+    keep_tex: true
+    number_sections: true
+---
+
+# Data Sample
+
+```{r}
+
+head(stores.info)
+head(stores.sale)
+head(weather)
+
+```
+
+# Data Summary
+
+```{r}
+
+summary(stores.info)
+summary(stores.sale)
+summary(weather)
+
+```
+
+# Weather Info Date Table 
+
+```{r}
+
+table(weather$weather_date)
+
+```
+
+# Sales Info Date Table 
+
+
+```{r}
+
+table(sales$TRANSACTION_DATE)
+
+```

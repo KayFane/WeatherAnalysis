@@ -1,63 +1,7 @@
-#load raw data
-#
-#Outputs:
-#stores.info -- Information on every store
-#stores.sale -- Sales info on every store
-#stores.weather -- Weather info on every store
-#Outputs Sample:
-# > head(stores.info)
-# STORE_NBR    FCLTY_CITY   FCLTY_PROVINCE FCLTY_POSTAL_CD LONGITUDE LATITUDE
-# 1       610      RICHMOND BRITISH COLUMBIA         V6X 2C2  -123.098   49.132
-# 2       483      SQUAMISH BRITISH COLUMBIA         V8B 0H5  -123.134   49.736
-# 3       438 WILLIAMS LAKE BRITISH COLUMBIA         V2G 3A6  -122.130   52.118
-# 4       466        DUNCAN BRITISH COLUMBIA         V9L 0C1  -123.718   48.801
-# 5       426       LANGLEY BRITISH COLUMBIA         V2Y 1A1  -122.667   49.118
-# 6       433    CHILLIWACK BRITISH COLUMBIA         V2R 4E7  -121.958   49.139
-# SERVICE_BAY_CNT
-# 1              10
-# 2               8
-# 3              10
-# 4              10
-# 5              16
-# 6              10
-# > head(stores.sale)
-# STORE_NUM  PROD_NBR    CATEGORY_NM FINELINE_CD POS_TRANSACTION_ID TRANSACTION_DATE
-# 1       609 121020001 AUTO BATTERIES       12102          710129144       2012-07-25
-# 2       368 121020001 AUTO BATTERIES       12102          634057339       2012-03-21
-# 3       479 121020001 AUTO BATTERIES       12102          754327323       2012-10-15
-# 4       486 121020001 AUTO BATTERIES       12102          678154159       2012-06-04
-# 5       487 121020001 AUTO BATTERIES       12102          716080443       2012-08-04
-# 6       363 121020001 AUTO BATTERIES       12102          609311863       2012-01-18
-# TRANSACTION_TM ITEM_TRANSACTION_QTY ITEM_RETURN_QUANTITY ACTIVE_CONSUMER_PRICE_AMT
-# 1       19.40.50                    1                    0                      9.99
-# 2       09.24.18                    1                    0                      9.99
-# 3       18.18.45                    1                    0                      9.99
-# 4       15.53.35                    1                    0                      9.99
-# 5       15.07.18                    1                    0                      9.99
-# 6       09.34.52                    1                    0                      9.99
-# > head(stores.weather)
-# weather_id   city_num province_abbr_nm        weather_date  weather_tm
-# 1     187038    KELOWNA               BC 2013-04-03 00:00:00 02:00:00:00
-# 2     187084    KELOWNA               BC 2013-11-18 00:00:00 02:00:00:00
-# 3     146020 ABBOTSFORD               BC 2013-04-25 00:00:00 02:00:00:00
-# 4     146066 ABBOTSFORD               BC 2013-12-04 00:00:00 02:00:00:00
-# 5     161954  COQUITLAM               BC 2012-01-31 00:00:00 02:00:00:00
-# 6     162000  COQUITLAM               BC 2013-08-12 00:00:00 02:00:00:00
-# weather_datatype_cd max_temp_amt min_temp_amt precipitation_mm_amt snow_cm_amt
-# 1                 obs       17.800        1.600                0.000       0.000
-# 2                 obs        6.900        0.200                4.100       0.000
-# 3                 obs       18.200        3.500                0.000       0.000
-# 4                 obs        1.800       -3.000                0.000       0.000
-# 5                 obs        6.600        4.600               13.100       0.000
-# 6                 obs       25.200       14.600                0.000       0.000
-# weather_en_desc         weather_fr_desc weather_icon_nm weather_source_desc
-# 1 No Precipitation   pas de precipitations       no_precip             primary
-# 2           Cloudy                 Nuageux               o             primary
-# 3           Cloudy                 Nuageux               o             primary
-# 4     Mainly sunny Généralement ensoleillé               h             primary
-# 5             Rain                   Pluie               r           secondary
-# 6           Cloudy                 Nuageux               o             primary
-# > 
+#load original data
+
+kReprepare = 1
+
 if(kReprepare) {
   
 library(plyr)
